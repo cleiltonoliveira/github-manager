@@ -38,6 +38,8 @@ class RoleControllerTest {
 
     private RoleModel roleModel;
     private RoleCreationRequest roleCreationRequest;
+    private static final String AUTH_HEADER = "Authorization";
+    private static final String AUTH_TOKEN = "Bearer my-secret-token";
 
     @BeforeEach
     void setUp() {
@@ -57,6 +59,7 @@ class RoleControllerTest {
 
         mockMvc.perform(post("/api/v1/roles")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(AUTH_HEADER, AUTH_TOKEN)
                 .content(objectMapper.writeValueAsString(roleCreationRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
@@ -70,6 +73,7 @@ class RoleControllerTest {
 
         mockMvc.perform(post("/api/v1/roles")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(AUTH_HEADER, AUTH_TOKEN)
                 .content(objectMapper.writeValueAsString(roleCreationRequest)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").value("Role with name ADMIN already exists."));
@@ -81,6 +85,7 @@ class RoleControllerTest {
 
         mockMvc.perform(post("/api/v1/roles")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(AUTH_HEADER, AUTH_TOKEN)
                 .content(objectMapper.writeValueAsString(roleCreationRequest)))
                 .andExpect(status().isBadRequest());
     }

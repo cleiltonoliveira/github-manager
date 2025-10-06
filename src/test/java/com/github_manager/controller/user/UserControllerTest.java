@@ -36,6 +36,8 @@ class UserControllerTest {
     private ModelMapper modelMapper;
 
     private List<UserModel> users;
+    private static final String AUTH_HEADER = "Authorization";
+    private static final String AUTH_TOKEN = "Bearer my-secret-token";
 
     @BeforeEach
     void setUp() {
@@ -57,7 +59,8 @@ class UserControllerTest {
         doNothing().when(userService).syncGitHubUsers();
 
         mockMvc.perform(post("/api/v1/users/sync")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .header(AUTH_HEADER, AUTH_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Usuários sincronizados com sucesso!"));
 
@@ -69,7 +72,8 @@ class UserControllerTest {
         when(userService.findAll()).thenReturn(users);
 
         mockMvc.perform(get("/api/v1/users")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .header(AUTH_HEADER, AUTH_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].login").value("testuser"))
@@ -83,7 +87,8 @@ class UserControllerTest {
         doNothing().when(userService).assignRoleToUser(anyLong(), anyLong());
 
         mockMvc.perform(post("/api/v1/users/1/roles/1")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .header(AUTH_HEADER, AUTH_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Perfil atribuído com sucesso"))
                 .andExpect(jsonPath("$.userId").value(1))
@@ -98,7 +103,8 @@ class UserControllerTest {
                 .when(userService).assignRoleToUser(999L, 1L);
 
         mockMvc.perform(post("/api/v1/users/999/roles/1")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .header(AUTH_HEADER, AUTH_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Usuário não encontrado"));
 
@@ -111,7 +117,8 @@ class UserControllerTest {
                 .when(userService).assignRoleToUser(1L, 999L);
 
         mockMvc.perform(post("/api/v1/users/1/roles/999")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .header(AUTH_HEADER, AUTH_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Perfil não encontrado"));
 
