@@ -1,16 +1,16 @@
 CREATE TABLE user (
-    id        BIGINT     PRIMARY KEY,
+    id        BIGINT     PRIMARY KEY AUTO_INCREMENT,
     login     TEXT       NOT NULL,
     url       TEXT       NOT NULL
 );
 
 CREATE TABLE role (
-    id        BIGINT     PRIMARY KEY,
+    id        BIGINT     PRIMARY KEY AUTO_INCREMENT,
     name      TEXT       NOT NULL
 );
 
 CREATE TABLE user_role (
-    id        BIGINT     PRIMARY KEY,
+    id        BIGINT     PRIMARY KEY AUTO_INCREMENT,
     user_id   BIGINT     NOT NULL,
     role_id   BIGINT     NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (id),
