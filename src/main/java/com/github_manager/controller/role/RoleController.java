@@ -28,10 +28,7 @@ public class RoleController {
         return new ResponseEntity<>(savedRole, HttpStatus.CREATED);
     }
 
-
     private RoleModel toModel(RoleCreationRequest request) {
         return modelMapper.map(request, RoleModel.class);
     }
-
-
 }

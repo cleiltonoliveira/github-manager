@@ -56,7 +56,9 @@ Sincroniza usuários do GitHub com o banco de dados local.
 **Resposta de Sucesso**:
 ```json
 Status: 200 OK
-"Usuários sincronizados com sucesso!"
+{
+  "message": "Usuários sincronizados com sucesso!"
+}
 ```
 
 #### Listar todos os usuários

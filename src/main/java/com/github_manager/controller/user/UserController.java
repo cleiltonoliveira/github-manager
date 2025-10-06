@@ -19,7 +19,7 @@ public class UserController {
     @PostMapping("sync")
     public ResponseEntity<?> sync() {
         userService.syncGitHubUsers();
-        return ResponseEntity.ok("Usuários sincronizados com sucesso!");
+        return ResponseEntity.ok(Map.of("message", "Usuários sincronizados com sucesso!"));
     }
 
     @GetMapping("")
